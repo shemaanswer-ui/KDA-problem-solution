@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Learn IT — Interactive Mini Site</title>
+  <style>
+    /* Basic layout */
+    :root{--accent:#0b74de;--muted:#666;--bg:#f7f9fc}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0;background:var(--bg);color:#111}
+    header{background:#fff;border-bottom:1px solid #e6e9ef;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    header h1{font-size:18px;margin:0}
+    nav a{margin-right:12px;color:var(--muted);text-decoration:none}
+    nav a.active{color:var(--accent);font-weight:600}
+    .container{max-width:980px;margin:24px auto;padding:0 16px}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:24px}
+    .card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(20,30,40,0.04)}
+
+    /* Lesson list */
+    .lesson{border-left:4px solid transparent;padding:12px;cursor:pointer}
+    .lesson:hover{background:#fbfdff}
+    .lesson.active{border-left-color:var(--accent);background:linear-gradient(90deg, rgba(11,116,222,0.04), transparent)}
+
+    /* Code block */
+    pre{background:#0f1724;color:#e6eef8;padding:12px;border-radius:8px;overflow:auto;font-family:Consolas, 'Courier New', monospace;font-size:13px}
+    code{white-space:pre}
+
+    /* Quiz */
+    .quiz .option{padding:8px;border-radius:8px;border:1px solid #e6e9ef;margin:8px 0;cursor:pointer}
+    .quiz .option.correct{border-color:green;background:#ecfff0}
+    .quiz .option.wrong{border-color:#d64545;background:#fff0f0}
+
+    /* Image slider */
+    .slider{position:relative;overflow:hidden;border-radius:10px}
+    .slides{display:flex;transition:transform .45s ease}
+    .slides img{width:100%;height:220px;object-fit:cover}
+    .slider .controls{position:absolute;top:50%;left:0;right:0;display:flex;justify-content:space-between;padding:0 8px;transform:translateY(-50%)}
+    .btn{background:rgba(255,255,255,0.85);border:1px solid #e6e9ef;padding:6px 10px;border-radius:8px;cursor:pointer}
+
+    /* Footer */
+    footer{margin-top:28px;text-align:center;color:var(--muted);padding:20px}
+
+    /* Responsive */
+    @media (max-width:900px){.grid{grid-template-columns:1fr;}.slides img{height:180px}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Learn IT</h1>
+    <nav>
+      <a href="#home" class="navlink active">Home</a>
+      <a href="#lessons" class="navlink">Lessons</a>
+      <a href="#quiz" class="navlink">Quiz</a>
+      <a href="#gallery" class="navlink">Gallery</a>
+      <a href="#contact" class="navlink">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="home" class="card">
+      <h2>Welcome — Learn the fundamentals of Information Technology</h2>
+      <p style="color:var(--muted)">This mini-site covers core IT topics with interactive examples. Use the navigation to explore lessons, try a short quiz, view an image gallery, and send feedback.</p>
+    </section>
+
+    <div class="grid">
+      <div>
+        <section id="lessons" class="card">
+          <h3>Lessons</h3>
+          <div id="lessonsList">
+            <div class="lesson active" data-lesson="intro"><strong>Introduction to IT</strong><div style="color:var(--muted);font-size:13px">What is IT & common roles</div></div>
+            <div class="lesson" data-lesson="networks"><strong>Basics of Networking</strong><div style="color:var(--muted);font-size:13px">IP, DNS, LAN vs WAN</div></div>
+            <div class="lesson" data-lesson="web"><strong>Web Development</strong><div style="color:var(--muted);font-size:13px">HTML, CSS, JavaScript overview</div></div>
+            <div class="lesson" data-lesson="security"><strong>Security Basics</strong><div style="color:var(--muted);font-size:13px">Passwords, phishing, backups</div></div>
+          </div>
+
+          <hr style="margin:16px 0">
+          <div id="lessonContent">
+            <!-- dynamic lesson content appears here -->
+          </div>
+        </section>
+
+        <section id="quiz" class="card" style="margin-top:18px">
+          <h3>Quick Quiz</h3>
+          <div class="quiz" id="quizArea">
+            <!-- quiz items inserted by JS -->
+          </div>
+          <div id="quizResult" style="margin-top:10px;color:var(--muted)"></div>
+        </section>
+
+      </div>
+
+      <aside>
+        <section class="card">
+          <h4>Site map</h4>
+          <ul style="color:var(--muted)">
+            <li>Home</li>
+            <li>Lessons
+              <ul>
+                <li>Introduction</li>
+                <li>Networks</li>
+                <li>Web Dev</li>
+                <li>Security</li>
+              </ul>
+            </li>
+            <li>Quiz</li>
+            <li>Gallery</li>
+            <li>Contact</li>
+          </ul>
+        </section>
+
+        <section class="card" style="margin-top:18px">
+          <h4>Image Gallery (Slider)</h4>
+          <div class="slider" id="slider">
+            <div class="slides" id="slides">
+              <img src="https://images.unsplash.com/photo-1526378722441-0a3c47b7fa9b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="coding"/>
+              <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="network"/>
+              <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="security"/>
+            </div>
+            <div class="controls">
+              <button class="btn" id="prev">◀</button>
+              <button class="btn" id="next">▶</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:18px" id="contact">
+          <h4>Contact / Feedback</h4>
+          <form id="contactForm" novalidate>
+            <label for="name">Name</label><br>
+            <input id="name" name="name" type="text" placeholder="Your name" style="width:100%;padding:8px;margin:6px 0;border-radius:6px;border:1px solid #e6e9ef">
+            <label for="email">Email</label><br>
+            <input id="email" name="email" type="email" placeholder="you@example.com" style="width:100%;padding:8px;margin:6px 0;border-radius:6px;border:1px solid #e6e9ef">
+            <label for="message">Message</label><br>
+            <textarea id="message" name="message" rows="3" style="width:100%;padding:8px;margin:6px 0;border-radius:6px;border:1px solid #e6e9ef"></textarea>
+            <div style="color:var(--muted);font-size:13px;margin-bottom:8px">All fields are required.</div>
+            <button type="submit" class="btn" style="width:100%">Send</button>
+            <div id="formFeedback" style="margin-top:8px;color:var(--muted)"></div>
+          </form>
+        </section>
+      </aside>
+    </div>
+
+    <footer>
+      <small>© Learn IT — Mini site • Interactive demos included</small>
+    </footer>
+  </main>
+
+  <script>
+    // ---------- Content for lessons ----------
+    const LESSONS = {
+      intro: {
+        title: 'Introduction to IT',
+        html: `
+          <h4>What is Information Technology?</h4>
+          <p>Information Technology (IT) is the use of computers, networks, and systems to store, process and communicate information.</p>
+          <h5>Common roles</h5>
+          <ul><li>System Administrator</li><li>Network Engineer</li><li>Software Developer</li><li>IT Support / Helpdesk</li></ul>
+          <h5>Try running a small JavaScript example below:</h5>
+          <pre><code id="jsExample">// Click 'Run JS' to execute
+const user = {name: 'Student', role: 'Learner'};
+console.log('Hello, ' + user.name + '! Welcome to Learn IT.');</code></pre>
+          <button class="btn" id="runJs">Run JS</button>
+          <div id="jsOutput" style="margin-top:8px;color:var(--muted)"></div>
+        `
+      },
+      networks: {
+        title: 'Basics of Networking',
+        html: `
+          <h4>Networking Fundamentals</h4>
+          <p>Networks connect devices. Key terms: IP address, DNS, routers, switches.</p>
+          <pre><code>// Example: IPv4 format
+192.168.1.10</code></pre>
+        `
+      },
+      web: {
+        title: 'Web Development',
+        html: `
+          <h4>How the web works</h4>
+          <p>Web pages are built with <strong>HTML</strong>, styled with <strong>CSS</strong>, and made interactive with <strong>JavaScript</strong>.</p>
+          <pre><code>&lt;!-- simple HTML snippet --&gt;
+&lt;p&gt;Hello from HTML&lt;/p&gt;</code></pre>
+        `
+      },
+      security: {
+        title: 'Security Basics',
+        html: `
+          <h4>Security essentials</h4>
+          <p>Use strong passwords, enable updates, and be cautious with links and attachments.</p>
+          <pre><code>// Tip: Never share your password
+const password = 'do-not-share';</code></pre>
+        `
+      }
+    }
+
+    // Initialize lesson content
+    const lessonsList = document.getElementById('lessonsList');
+    const lessonContent = document.getElementById('lessonContent');
+    function showLesson(key){
+      // update active class
+      [...lessonsList.querySelectorAll('.lesson')].forEach(el => el.classList.toggle('active', el.dataset.lesson===key));
+      lessonContent.innerHTML = LESSONS[key].html;
+      // attach run js if present
+      const runBtn = document.getElementById('runJs');
+      if(runBtn){
+        runBtn.addEventListener('click', ()=>{
+          const code = document.getElementById('jsExample').textContent;
+          try{
+            const consoleOutput = eval(`(function(){\n${code}\n})()`); // run inside a safe IIFE
+            document.getElementById('jsOutput').textContent = 'JS ran — check the browser console for console.log output.';
+          }catch(e){ document.getElementById('jsOutput').textContent = 'Error: '+e.message }
+        })
+      }
+    }
+    // default show intro
+    showLesson('intro');
+    lessonsList.addEventListener('click', e=>{ const item = e.target.closest('.lesson'); if(item) showLesson(item.dataset.lesson) })
+
+    // ---------- Quiz logic ----------
+    const QUIZ = [
+      {q:'What does IT stand for?', options:['Internal Transfer','Information Technology','Internet Trade'], a:1},
+      {q:'Which language is used to make web pages interactive?', options:['HTML','CSS','JavaScript'], a:2},
+      {q:'Which one is a good security practice?', options:['Use weak passwords','Click unknown links','Regularly update software'], a:2}
+    ];
+    const quizArea = document.getElementById('quizArea');
+    function renderQuiz(){
+      quizArea.innerHTML = '';
+      QUIZ.forEach((item, idx)=>{
+        const qDiv = document.createElement('div');
+        qDiv.innerHTML = `<div style="font-weight:600">${idx+1}. ${item.q}</div>`;
+        item.options.forEach((opt,i)=>{
+          const optDiv = document.createElement('div');
+          optDiv.className = 'option';
+          optDiv.textContent = opt;
+          optDiv.addEventListener('click', ()=> handleAnswer(idx,i,optDiv));
+          qDiv.appendChild(optDiv);
+        });
+        quizArea.appendChild(qDiv);
+      })
+    }
+    function handleAnswer(qIdx, choiceEl, el){
+      // mark choices
+      const parent = el.parentElement;
+      const options = parent.querySelectorAll('.option');
+      options.forEach(o=>o.classList.remove('correct','wrong'));
+      if(choiceEl===QUIZ[qIdx].a){ el.classList.add('correct'); } else { el.classList.add('wrong'); options[QUIZ[qIdx].a].classList.add('correct') }
+      // show score summary
+      const allAnswered = [...document.querySelectorAll('#quizArea .option')].every(o => o.classList.contains('correct') || o.classList.contains('wrong'));
+      if(allAnswered){
+        const correctCount = [...document.querySelectorAll('#quizArea .option.correct')].length;
+        document.getElementById('quizResult').textContent = `Score: ${correctCount} / ${QUIZ.length}`;
+      }
+    }
+    renderQuiz();
+
+    // ---------- Slider logic ----------
+    const slides = document.getElementById('slides');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    let idx = 0;
+    function updateSlider(){ slides.style.transform = `translateX(-${idx * 100}%)`; }
+    prev.addEventListener('click', ()=>{ idx = (idx-1+slides.children.length)%slides.children.length; updateSlider(); })
+    next.addEventListener('click', ()=>{ idx = (idx+1)%slides.children.length; updateSlider(); })
+    // auto-play
+    setInterval(()=>{ idx = (idx+1)%slides.children.length; updateSlider(); }, 6000)
+
+    // ---------- Contact form validation (client-side) ----------
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+      const feedback = document.getElementById('formFeedback');
+      // simple validation
+      if(!name){ feedback.textContent='Please enter your name.'; return }
+      if(!email || !/^\S+@\S+\.\S+$/.test(email)){ feedback.textContent='Please enter a valid email.'; return }
+      if(!message){ feedback.textContent='Please add a message.'; return }
+      feedback.textContent = 'Thank you — your message has been recorded (demo).';
+      form.reset();
+    })
+
+    // ---------- Navigation highlights ----------
+    document.querySelectorAll('.navlink').forEach(a=>a.addEventListener('click', (e)=>{
+      document.querySelectorAll('.navlink').forEach(x=>x.classList.remove('active'));
+      e.target.classList.add('active');
+    }))
+
+    // Accessibility tiny enhancement: keyboard support for quiz options
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter'){ const focused = document.activeElement; if(focused && focused.classList && focused.classList.contains('option')) focused.click() }
+    })
+
+    // ---------- Pseudocode / Flowchart notes (as comments) ----------
+    /*
+      Example: Contact form validation pseudocode (client-side)
+      START
+        GET form input values
+        IF name empty -> show error
+        ELSE IF email empty or invalid -> show error
+        ELSE IF message empty -> show error
+        ELSE -> submit (or send to server)
+      END
+      Tools used on client-side: HTML5 (form), CSS (layout), JavaScript (validation, dynamic content)
+    */
+  </script>
+</body>
+</html>
